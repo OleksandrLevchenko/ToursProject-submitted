@@ -1,10 +1,8 @@
 package org.oleksandr.tours.repo;
 
-
 import org.oleksandr.tours.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 
 	public interface UserRepository extends JpaRepository<User, Long> {
 		

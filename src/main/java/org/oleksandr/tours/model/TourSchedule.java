@@ -14,16 +14,17 @@ public class TourSchedule {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "attraction.id", nullable = false, length = 20)
-    private String attraction_id;
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "attraction.id")
+    private Attraction attraction;
 
     @Column(name = "price", nullable = false, length = 10)
     private Double price;
 
-    public TourSchedule(Long id, Date date, String attraction_id, Double price) {
+    public TourSchedule(Long id, Date date, Attraction attraction, Double price) {
         this.id = id;
         this.date = date;
-        this.attraction_id = attraction_id;
+        this.attraction = attraction;
         this.price = price;
     }
 
@@ -37,9 +38,9 @@ public class TourSchedule {
 
     public void setDate(Date date) {this.date = date;}
 
-    public String getAttraction_id() {return attraction_id;}
+    public Attraction getAttraction() {return attraction;}
 
-    public void setAttraction_id(String attraction_id) {this.attraction_id = attraction_id;}
+    public void setAttraction(Attraction attraction) {this.attraction = attraction;}
 
     public Double getPrice() {return price;}
 

@@ -10,5 +10,4 @@ public interface AttractionRepository extends JpaRepository<Attraction, Long> {
 
     @Query("Select a from Attraction a where a.id = ?1")
     Attraction findById(String id);
-
 }
