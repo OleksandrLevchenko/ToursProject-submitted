@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Attractions management</title>
+<link rel="stylesheet" type="text/css"href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container text-center">
+	<div>
+            <h1>Editing attraction</h1>
+        </div>
+        <form action="#" th:action="@{/save_attraction}" th:object="${editAttraction}"
+            method="post" style="max-width: 600px; margin: 0 auto;">
+            <input type="hidden" th:field="*{id}" />
+            <input type="text" th:field="*{title}" maxlength="20" class="form-control mb-4 col-4">
+            <input type="text" th:field="*{description}" maxlength="200" class="form-control mb-4 col-4">
+            <button type="submit" class="btn btn-info col-2"> Update attraction</button>
+        </form>
+    </div>
+</body>
+</html>

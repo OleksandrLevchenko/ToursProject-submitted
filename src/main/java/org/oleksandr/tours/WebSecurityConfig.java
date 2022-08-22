@@ -21,21 +21,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private DataSource dataSource;
 
 	@Bean
-	public UserDetailsService userDetailsService() {
-		return new CustomUserDetailsService();
-	}
+	public UserDetailsService userDetailsService() {return new CustomUserDetailsService();}
 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	public BCryptPasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 	DaoAuthenticationProvider  authProvider = new DaoAuthenticationProvider(); 
 			authProvider.setUserDetailsService(userDetailsService());
 			authProvider.setPasswordEncoder(passwordEncoder());
-			
 			return authProvider;
 		}
 
@@ -53,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.formLogin()
 		.usernameParameter("email")
 		.defaultSuccessUrl("/")
+//		.loginPage("/login").permitAll()
 		.permitAll()
 		.and()
 		.logout().logoutSuccessUrl("/").permitAll();

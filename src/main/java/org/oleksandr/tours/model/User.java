@@ -1,17 +1,14 @@
 package org.oleksandr.tours.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
      
     @Id
+	@Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
      
@@ -26,13 +23,22 @@ public class User {
      
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
+////
+	@ManyToMany(targetEntity = TourSchedule.class, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@JoinTable(name = "reservations")
+	private List<TourSchedule> userTours;
+////?????????????????????????????????????????
 
-	public User(Long id, String email, String password, String firstName, String lastName) {
+	@OneToMany(mappedBy = "tourSchedule", cascade = CascadeType.ALL)
+	private List<Reservation> reservations;
+
+	public User(Long id, String email, String password, String firstName, String lastName, List<TourSchedule> userTours) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.userTours = userTours;
 	}
 
 	public User() {}
@@ -56,4 +62,8 @@ public class User {
 	public String getLastName() {return lastName;}
 
 	public void setLastName(String lastName) {this.lastName = lastName;}
+
+	public List<TourSchedule> getUserTours() {return userTours;}
+
+	public void setUserTours(List<TourSchedule> userTours) {this.userTours = userTours;}
 }

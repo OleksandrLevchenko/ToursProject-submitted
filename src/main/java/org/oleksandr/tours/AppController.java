@@ -1,12 +1,15 @@
 package org.oleksandr.tours;
 
 import org.oleksandr.tours.model.Attraction;
+import org.oleksandr.tours.model.Reservation;
 import org.oleksandr.tours.model.TourSchedule;
 import org.oleksandr.tours.model.User;
 import org.oleksandr.tours.repo.AttractionRepository;
+import org.oleksandr.tours.repo.ReservationRepository;
 import org.oleksandr.tours.repo.TourRepository;
 import org.oleksandr.tours.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +30,9 @@ public class AppController {
 
     @Autowired
     private TourRepository tourRepo;
+
+    @Autowired
+    private ReservationRepository resRepo;
 
     @GetMapping("")
     public String viewHomePage() {return "index";}
@@ -121,5 +127,58 @@ public class AppController {
         TourSchedule tour = tourRepo.getReferenceById(id);
         tourRepo.delete(tour);
         return "redirect:/manage_tours";
+    }
+
+//    R E S E R V A T I O N S
+    @GetMapping("/user/manage_reservations")
+    public String manageReservation(Model model) {
+        List<TourSchedule> listTours = tourRepo.findAll();
+        model.addAttribute("listTours", listTours);
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = customUserDetails.getUser();
+        List<Reservation> listReservations = resRepo.findByUser(user);
+        model.addAttribute("listReservations", listReservations);
+        return "user/manage_reservations";
+    }
+
+    @GetMapping("/user/save_reservation/{id}")
+    public String saveReservation(@PathVariable(value = "id") long id) {
+        Reservation reservation = new Reservation();
+        TourSchedule tour = tourRepo.getReferenceById(id);
+        reservation.setTourSchedule(tour);
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = customUserDetails.getUser();
+        reservation.setUser(user);
+        boolean foundExisting = false;
+        List<Reservation> listReservations = resRepo.findByUser(user);
+        for (Reservation res : listReservations) {
+            if (res.getUser().getId() == user.getId() && res.getTourSchedule().getId() == tour.getId()) {
+                foundExisting = true;
+                break;
+            }
+        }
+        if (foundExisting == false) resRepo.save(reservation);
+        return "redirect:/user/manage_reservations";
+    }
+
+//    @GetMapping("/edit_reservation/{id}")
+//    public String editReservation(@PathVariable(value = "id") long id, Model model) {
+//        List<Reservation> listReservations = resRepo.findAll();
+//        model.addAttribute("reservationOptions", listReservations);
+//        if (id == 0) {
+//            Reservation reservation = new Reservation();
+//            model.addAttribute("editReservation", reservation);
+//            return "user/add_reservation";
+//        }
+//        Reservation reservation = resRepo.getReferenceById(id);
+//        model.addAttribute("editReservation", reservation);
+//        return "user/edit_reservation";
+//    }
+
+    @GetMapping("/user/delete_reservation/{id}")
+    public String deleteReservation(@PathVariable(value = "id") long id) {
+        Reservation reservation = resRepo.getReferenceById(id);
+        resRepo.delete(reservation);
+        return "redirect:/user/manage_reservations";
     }
 }

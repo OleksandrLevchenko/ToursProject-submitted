@@ -1,6 +1,7 @@
 package org.oleksandr.tours.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "attractions")
@@ -8,7 +9,14 @@ public class Attraction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+//
+    @OneToMany(mappedBy = "attraction", cascade = CascadeType.ALL)
+    private List<TourSchedule> tours;
+//
+
 
     @Column(name = "title", nullable = false, length = 20)
     private String title;
