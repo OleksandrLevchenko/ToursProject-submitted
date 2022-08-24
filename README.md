@@ -8,7 +8,7 @@ For testing purposes data_for_TOURS_project.sql can be executed to have more dat
 TOURS is a full stack Java project.
 ----------------------------------------------------------------------------------------------------
 
-Kuala Lumpur tourist portal has main page with some external links to other touristic resouces, social media links (for following), buttons LOGIN and REGISTER with further functionality:
+All Kuala Lumpur tourist portal pages have 11 external links to other touristic resouces, social media links (Facebook, Twitter, Instagram, Youtube) and Light/Dark view toggle switch. Main page has buttons LOGIN and REGISTER with further functionality:
 
 - LOGIN page signs in existing users.
 
