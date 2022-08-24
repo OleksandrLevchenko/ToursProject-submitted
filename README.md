@@ -5,9 +5,9 @@ For testing purposes data_for_TOURS_project.sql can be executed to have more dat
 
 
 
-    This is a full stack Java Tours project.
+TOURS is a full stack Java project.
 ----------------------------------------------------------------------------------------------------
-FUNCTIONALITY:
+
 Kuala Lumpur tourist portal has main page with some external links to other touristic resouces, social media links (for following), buttons LOGIN and REGISTER with further functionality:
 
 - LOGIN page signs in existing users.
