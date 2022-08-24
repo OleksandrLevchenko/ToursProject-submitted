@@ -43,4 +43,3 @@ User with NON-ADMIN role has access to such pages/buttons with corresponding fun
 - RESERVATIONS page presents the list of already existing Tours (schedule of Attractions with "date", "attraction title" and "price" for each Tour) and a list of current user Reservations. Tours can be added to the Reservations list of the current user ("Reserve" button). Already reserved Tours can be removed from the Reservations list ("Delete" button).
 
 - LOG OUT page logs out the current user.
-![image](https://user-images.githubusercontent.com/106098041/186516957-eb0c1d9a-7fcc-4913-bc88-87b5104b2569.png)
