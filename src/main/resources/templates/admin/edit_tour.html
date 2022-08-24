@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kuala Lumpur tour schedule management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@600&display=swap" rel="stylesheet">
+    <style>
+        a:link {text-decoration-line: none; color: rgb(0, 115, 225)}
+        a:visited {text-decoration-line: none; color: rgb(0, 115, 225)}
+        a:hover {text-decoration-line: none; color: rgb(0, 155, 225)}
+        a:active {text-decoration-line: none; color: rgb(0, 115, 225)}
+    </style>
+</head>
+
+<body>
+<div class="grid-container">
+
+    <logo>
+        <img src="/images/logo.png" class="logo"/>
+    </logo>
+
+    <header>
+        <ul id="horizontal-list" sec:authorize="isAuthenticated() != true">
+            <li><a href="/">HOME</a></li>
+            <li><a th:href="@{/login}" class="btn btn-primary btn-lg btn-block">LOGIN</a></li>
+            <li><a th:href="@{/register}" class="btn btn-secondary btn-lg btn-block">REGISTER</a></li>
+            <input type="checkbox" id="daynighttoggle" onclick="myFunction()">
+        </ul>
+        <ul id="horizontal-list" sec:authorize="hasAuthority('admin') != true">
+            <li><a sec:authorize="isAuthenticated()" href="/">HOME</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/user/manage_reservations}" class="btn btn-primary btn-lg col-2">RESERVATIONS</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-danger btn-lg col-2">LOG OUT</a></li>
+            <input sec:authorize="isAuthenticated()" type="checkbox" id="daynighttoggle" onclick="myFunction()">
+        </ul>
+        <ul id="horizontal-list" sec:authorize="hasAuthority('admin')">
+            <li><a href="/">HOME</a></li>
+            <li><a th:href="@{/admin/manage_attractions}" class="btn btn-primary btn-lg col-2">ATTRACTIONS</a></li>
+            <li><a th:href="@{/user/manage_reservations}" class="btn btn-primary btn-lg col-2">RESERVATIONS</a></li>
+            <li><a th:href="@{/admin/manage_tours}" class="btn btn-primary btn-lg col-2">TOURS</a></li>
+            <li><a th:href="@{/admin/list_users}" class="btn btn-primary btn-lg col-2">USERS</a></li>
+            <li><a th:href="@{/logout}" class="btn btn-danger btn-lg col-2">LOG OUT</a></li>
+            <input type="checkbox" id="daynighttoggle" onclick="myFunction()">
+        </ul>
+    </header>
+
+    <nav>
+        <ul class="navigate" id="vertical-list">
+            <li><a href="https://www.lonelyplanet.com/best-in-travel/countries" align="center">Top 10 countries for travelling in 2022:</a></li>
+            <li><a href="https://www.lonelyplanet.com/rarotonga-and-the-cook-islands">The Cook Islands</a></li>
+            <li><a href="https://www.lonelyplanet.com/norway">Norway</a></li>
+            <li><a href="https://www.lonelyplanet.com/mauritius">Mauritius</a></li>
+            <li><a href="https://www.lonelyplanet.com/belize">Belize</a></li>
+            <li><a href="https://www.lonelyplanet.com/slovenia">Slovenia</a></li>
+            <li><a href="https://www.lonelyplanet.com/anguilla">Anguilla</a></li>
+            <li><a href="https://www.lonelyplanet.com/oman">Oman</a></li>
+            <li><a href="https://www.lonelyplanet.com/nepal">Nepal</a></li>
+            <li><a href="https://www.lonelyplanet.com/malawi">Malawi</a></li>
+            <li><a href="https://www.lonelyplanet.com/egypt">Egypt</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container text-center">
+            <!--            <div>-->
+            <!--                <h1 align="center">Welcome, <b>[[${#request.userPrincipal.principal.fullName}]]</b>!</h1>-->
+            <!--            </div>-->
+            <div class="inputForm">
+                <form action="#"
+                      th:action="@{/admin/save_tour}"
+                      th:object="${editTour}"
+                      method="post">
+                    <div>
+                        <h2>Edit tour schedule</h2>
+                        <input type="hidden" th:field="*{id}"/>
+                        <label for="inputField">tour date</label>
+                        <input id="inputField" type="text" th:field="*{date}">
+                        <label>choose attraction:</label>
+                            <select id="selAttr" name= "attraction">
+                                <option th:each="option : ${attractionOptions}"
+                                        th:value="${option.id}"
+                                        th:text="${option.title}"
+                                        th:selected="(${option.id} == *{attraction.id})">
+                                </option>
+                            </select>
+                        <label for="inputField">tour price</label>
+                        <input id="inputField"
+                               type="text"
+                               th:field="*{price}"
+                               maxlength="10">
+                        <button id="but" type="submit">Save tour</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="socials">
+            <p id="footerP">
+                Copyright &copy; 2022. Kuala Lumpur Governmental Services. All rights reserved.
+            </p>
+            <strong>Follow us on:</strong>
+            <li><a href="https://www.facebook.com">Facebook</a></li>
+            <li><a href="https://www.twitter.com">Twitter</a></li>
+            <li><a href="https://www.instagram.com">Instagram</a></li>
+            <li><a href="https://www.youtube.com">Youtube</a></li>
+        </div>
+    </footer>
+
+</div>
+<script src="/js/general.js"></script>
+</body>
+</html>

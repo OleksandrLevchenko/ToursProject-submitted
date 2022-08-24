@@ -3,11 +3,13 @@ package org.oleksandr.tours.repo;
 import org.oleksandr.tours.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-	public interface UserRepository extends JpaRepository<User, Long> {
-		@Query("Select u from User u Where u.email = ?1")
+public interface UserRepository extends JpaRepository<User, Long> {
+		@Query("SELECT u FROM User u WHERE u.email = ?1")
 		User findByEmail(String email);
-
-//	    @Query("SELECT u FROM User u WHERE u.username = :username")
-//	    public User getUserByUsername(@Param("username") String username);
+//////////
+		@Query("SELECT u FROM User u WHERE u.email = :email")
+		public User getUserByEmail(@Param("email") String email);
+//////////
 }

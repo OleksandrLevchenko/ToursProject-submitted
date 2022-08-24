@@ -14,7 +14,7 @@ import org.springframework.test.annotation.Rollback;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(false)
+//@Rollback(false)
 public class UserRepositoryTest {
 	@Autowired
 	private TestEntityManager entityManager;
@@ -25,18 +25,19 @@ public class UserRepositoryTest {
 	@Test
 	public void testCreateUser() {
 		User user = new User();
-		user.setEmail("Ika@Gmail.com");
-		user.setPassword("ikaabe123");
-		user.setFirstName("Ika");
-		user.setLastName("Shala");
+		user.setEmail("test@mail.com");
+		user.setPassword("123456");
+		user.setFirstName("Name");
+		user.setLastName("Surname");
 		User savedUser = repo.save(user);
 		User existUser = entityManager.find(User.class, savedUser.getId());
 		assertThat(user.getEmail()).isEqualTo(existUser.getEmail());
+		repo.delete(user);
 	}
 	
 	@Test
 	public void TestFindUserByEmail() {
-		String email = "Irakli0608@gmail.com";
+		String email = "admin@mail.com";
 		User user = repo.findByEmail(email);
 		assertThat(user).isNotNull();
 	}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kuala Lumpur tours</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@600&display=swap" rel="stylesheet">
+    <style>
+        a:link {text-decoration-line: none; color: rgb(0, 115, 225)}
+        a:visited {text-decoration-line: none; color: rgb(0, 115, 225)}
+        a:hover {text-decoration-line: none; color: rgb(0, 155, 225)}
+        a:active {text-decoration-line: none; color: rgb(0, 115, 225)}
+    </style>
+</head>
+
+<body>
+<div class="grid-container">
+
+    <logo>
+        <img src="/images/logo.png" class="logo"/>
+    </logo>
+
+    <header>
+        <ul id="horizontal-list" sec:authorize="isAuthenticated() != true">
+            <li><a href="/">HOME</a></li>
+            <li><a th:href="@{/login}" class="btn btn-primary btn-lg btn-block">LOGIN</a></li>
+            <li><a th:href="@{/register}" class="btn btn-secondary btn-lg btn-block">REGISTER</a></li>
+            <input type="checkbox" id="daynighttoggle" onclick="myFunction()">
+        </ul>
+        <ul id="horizontal-list" sec:authorize="hasAuthority('admin') != true">
+            <li><a sec:authorize="isAuthenticated()" href="/">HOME</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/user/manage_reservations}" class="btn btn-primary btn-lg col-2">RESERVATIONS</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-danger btn-lg col-2">LOG OUT</a></li>
+            <input sec:authorize="isAuthenticated()" type="checkbox" id="daynighttoggle" onclick="myFunction()">
+        </ul>
+        <ul id="horizontal-list" sec:authorize="hasAuthority('admin')">
+            <li><a href="/">HOME</a></li>
+            <li><a th:href="@{/admin/manage_attractions}" class="btn btn-primary btn-lg col-2">ATTRACTIONS</a></li>
+            <li><a th:href="@{/user/manage_reservations}" class="btn btn-primary btn-lg col-2">RESERVATIONS</a></li>
+            <li><a th:href="@{/admin/manage_tours}" class="btn btn-primary btn-lg col-2">TOURS</a></li>
+            <li><a th:href="@{/admin/list_users}" class="btn btn-primary btn-lg col-2">USERS</a></li>
+            <li><a th:href="@{/logout}" class="btn btn-danger btn-lg col-2">LOG OUT</a></li>
+            <input type="checkbox" id="daynighttoggle" onclick="myFunction()">
+        </ul>
+    </header>
+
+    <nav>
+        <ul class="navigate" id="vertical-list">
+            <li><a href="https://www.lonelyplanet.com/best-in-travel/countries" align="center">Top 10 countries for travelling in 2022:</a></li>
+            <li><a href="https://www.lonelyplanet.com/rarotonga-and-the-cook-islands">The Cook Islands</a></li>
+            <li><a href="https://www.lonelyplanet.com/norway">Norway</a></li>
+            <li><a href="https://www.lonelyplanet.com/mauritius">Mauritius</a></li>
+            <li><a href="https://www.lonelyplanet.com/belize">Belize</a></li>
+            <li><a href="https://www.lonelyplanet.com/slovenia">Slovenia</a></li>
+            <li><a href="https://www.lonelyplanet.com/anguilla">Anguilla</a></li>
+            <li><a href="https://www.lonelyplanet.com/oman">Oman</a></li>
+            <li><a href="https://www.lonelyplanet.com/nepal">Nepal</a></li>
+            <li><a href="https://www.lonelyplanet.com/malawi">Malawi</a></li>
+            <li><a href="https://www.lonelyplanet.com/egypt">Egypt</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container text-center">
+            <div>
+                <h1 align="center">Welcome, <b>[[${#request.userPrincipal.principal.fullName}]]</b>!</h1>
+                <h2 align="center">List of tours</h2>
+            </div>
+            <div>
+                <table class="table" align="center" style="width:100%">
+                    <thead class="tablethread">
+                    <tr>
+                        <th style="width:20%">Date</th>
+                        <th style="width:40%">Attraction</th>
+                        <th style="width:20%">Price</th>
+                        <th style="width:10%"></th>
+                        <th style="width:10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody align="center">
+                    <tr th:if="${listTours.isEmpty()}">
+                        <td colspan="4">no tours available yet</td>
+                    </tr>
+                    <tr th:each="tour: ${listTours}">
+                        <td th:text="${tour.date}">Date</td>
+                        <td th:text="${tour.attraction.title}">Attraction</td>
+                        <td th:text="${tour.price}">Price</td>
+                        <td>
+                            <button id="bluebut">
+                                <a id="whitelabel" th:href="@{/admin/edit_tour/{id}(id=${tour.id})}">Edit</a>
+                            </button>
+                        </td>
+                        <td>
+                            <button id="redbut">
+                                <a id="whitelabel" th:href="@{/admin/delete_tour/{id}(id=${tour.id})}">Delete</a>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button id="bigbut">
+                    <a id="whitelabel" href="/admin/edit_tour/0" type="button" class="btn btn-primary btn-block">Add new tour</a>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="socials">
+            <p id="footerP">
+                Copyright &copy; 2022. Kuala Lumpur Governmental Services. All rights reserved.
+            </p>
+            <strong>Follow us on: </strong>
+            <li><a href="https://www.facebook.com">Facebook</a></li>
+            <li><a href="https://www.twitter.com">Twitter</a></li>
+            <li><a href="https://www.instagram.com">Instagram</a></li>
+            <li><a href="https://www.youtube.com">Youtube</a></li>
+        </div>
+    </footer>
+
+</div>
+<script src="/js/general.js"></script>
+</body>
+</html>

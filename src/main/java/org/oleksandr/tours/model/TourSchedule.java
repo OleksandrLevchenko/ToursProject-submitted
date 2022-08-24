@@ -24,25 +24,8 @@ public class TourSchedule {
 
     @OneToMany(mappedBy = "tourSchedule", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
-//
-//    @JoinColumn(name = "attraction_id")
-//
-////
-//    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
-//    private List<Reservation> reservations;
-////
-//    @JoinTable(name = "JoinTour")
-//    private Attraction attraction;
-
-
-//    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-//    @JoinColumn(name = "attraction.id")
-//    private Attraction attraction;
-
-
 
     public TourSchedule(Long id, Date date, Attraction attraction, Double price) {
-        super();
         this.id = id;
         this.date = date;
         this.price = price;

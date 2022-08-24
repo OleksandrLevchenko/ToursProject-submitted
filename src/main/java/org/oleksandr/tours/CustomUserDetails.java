@@ -1,9 +1,14 @@
 package org.oleksandr.tours;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
+import org.oleksandr.tours.model.Role;
 import org.oleksandr.tours.model.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
@@ -12,12 +17,18 @@ public class CustomUserDetails implements UserDetails {
 
 	public CustomUserDetails(User user) {this.user = user;}
 
-	public User getUser() {
-		return user;
-	}
+	public User getUser() {return user;}
 
+//////////
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {return null;}
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		return null;}
+		Set<Role> roles = user.getRoles();
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		for (Role role : roles) {authorities.add(new SimpleGrantedAuthority(role.getName()));}
+        return authorities;
+	}
+//////////
 
 	@Override
 	public String getPassword() {return user.getPassword();}
@@ -36,6 +47,8 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {return true;}
+//		return user.isEnabled();
+//	}
 	
 	public String getFullName() {return user.getFirstName() + " " + user.getLastName();}
 }
