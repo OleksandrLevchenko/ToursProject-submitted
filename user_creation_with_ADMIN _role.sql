@@ -1,4 +1,4 @@
-/*    These queries provide creating ADMIN role user for complete functionality of the Tours project    */
+/*    These queries provide creation of ADMIN role user for complete functionality of the Tours project    */
 
 -- creates user with password 123456 (encrypted)
 INSERT INTO `ToursDB`.`users` (`email`, `first_name`, `last_name`, `password`) VALUES ('admin@mail.com', 'Oleksandr', 'Levchenko', '$2a$10$psWtp6ab4IDRrXG4o4mkQOl72DVEPnbIYefgGVkmJFfyB8v.nImji');
