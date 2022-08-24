@@ -2,12 +2,11 @@ NOTE:
 For complete functionality, ADMIN role is required. ADMIN role can only be added manually to the database for security reasons. To do this user_creation_with_ADMIN _role.sql can be executed (using MySQLWorkbench for example).
 
 For testing purposes data_for_TOURS_project.sql can be executed to have more data in all tables of the project.
-----------------------------------------------------------------------------------------------------
 
 
 
     This is a full stack Java Tours project.
-
+----------------------------------------------------------------------------------------------------
 FUNCTIONALITY:
 Kuala Lumpur tourist portal has main page with some external links to other touristic resouces, social media links (for following), buttons LOGIN and REGISTER with further functionality:
 
